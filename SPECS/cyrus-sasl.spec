@@ -9,7 +9,7 @@
 Summary: The Cyrus SASL library
 Name: cyrus-sasl
 Version: 2.1.27
-Release: 21%{?dist}
+Release: 22%{?dist}
 License: BSD with advertising
 URL: https://www.cyrusimap.org/sasl/
 
@@ -48,6 +48,7 @@ Patch108: cyrus-sasl-2.1.27-Migration-from-BerkeleyDB.patch
 Patch500: cyrus-sasl-2.1.27-coverity.patch
 Patch501: cyrus-sasl-2.1.27-cumulative-digestmd5.patch
 Patch502: cyrus-sasl-2.1.27-cumulative-ossl3.patch
+Patch503: cyrus-sasl-2.1.27-remove-debug-log-mech-free.patch
 
 Patch900: 0001-CVE-2022-24407-Escape-password-for-SQL-insert-update.patch
 
@@ -189,6 +190,7 @@ the GS2 authentication scheme.
 %patch500 -p1 -b .coverity
 %patch501 -p1 -b .digestmd5
 %patch502 -p1 -b .ossl3
+%patch503 -p1 -b .logspam
 %patch900 -p1 -b .CVE-2022-24407
 
 %build
@@ -401,6 +403,9 @@ getent passwd %{username} >/dev/null || useradd -r -g %{username} -d %{homedir} 
 %{_sbindir}/sasl2-shared-mechlist
 
 %changelog
+* Fri Mar 28 2025 Rob Crittenden <rcritten@redhat.com> - 2.1.27-22
+- Remove debug log spam in digestmd5 plugin (RHEL-82172)
+
 * Mon Aug  1 2022 Simo Sorce <simo@redhat.com> - 2.1.27-21
 - Fix memleak
 
